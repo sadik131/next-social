@@ -7,11 +7,11 @@ function Stories() {
       <div className='flex gap-6 items-center w-max '>
         <div className='flex flex-col gap-2 items-center justify-center'>
           <Image src="/kasmir.jpg" alt='stories' width={80} height={80} className='w-20 h-20 rounded-full ring-2' />
-          <p>RIMI</p>
+          <p>Supto</p>
         </div>
         <div className='flex flex-col gap-2 items-center justify-center'>
           <Image src="/kasmir.jpg" alt='stories' width={80} height={80} className='w-20 h-20 rounded-full ring-2' />
-          <p>love</p>
+          <p>Supto</p>
         </div>
         <div className='flex flex-col gap-2 items-center justify-center'>
           <Image src="/kasmir.jpg" alt='stories' width={80} height={80} className='w-20 h-20 rounded-full ring-2' />

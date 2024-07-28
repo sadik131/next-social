@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
-function Friends() {
+function Friends({ userId }: { userId: string }) {
     return (
         <div className="cardContainer flex flex-col gap-4">
             <div className='flex justify-between text-sm'>

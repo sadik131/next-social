@@ -5,8 +5,8 @@ function Comment() {
     return (
         <div className='my-5'>
             <div className="flex my-5">
-                <Image src={"/kasmir.jpg"} alt='user' height={40} width={40} className='h-10 w-10 rounded-full' />
-                <div className='flex flex-1 justify-between items-center bg-slate-200 rounded-md'>
+                <Image src={"/kasmir.jpg"} alt='user' height={40} width={40} className='h-10 w-10 mr-2 rounded-full' />
+                <div className='flex flex-1 justify-between items-center px-2 bg-slate-200 rounded-md'>
                     <div className='flex items-center gap-4'>
                         <input type="text" placeholder='Write a comment' className='bg-transparent outline-none' />
                     </div>
@@ -16,8 +16,8 @@ function Comment() {
             <div>
                 <div className="flex items-center justify-between">
                     <div className='flex gap-2 items-center'>
-                        <Image src={"/kasmir.jpg"} alt='user' height={40} width={40} className='h-10 w-10 rounded-full' />
-                        <p className='font-semibold'>Sadik Supto</p>
+                        <Image src={"/kasmir.jpg"} alt='user' height={32} width={32} className='h-8 w-8 rounded-full' />
+                        <p className='font-semibold text-sm'>Sadik Supto</p>
                     </div>
                     <Image src={"/more.png"} alt='more' height={20} width={20} className='h-5 w-5 cursor-pointer' />
                 </div>

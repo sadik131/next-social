@@ -1,7 +1,8 @@
+import { User } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
 
-function UserMediaCard() {
+function UserMediaCard({data}:{data:User}) {
   return (
     <div className='cardContainer'>
       <div className="flex items-center justify-between text-sm my-4">

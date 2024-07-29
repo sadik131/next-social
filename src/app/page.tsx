@@ -3,8 +3,21 @@ import AddPost from "./components/AddPost"
 import Stories from "./components/Stories"
 import LeftMenu from "./components/LeftMenu"
 import RightMenu from "./components/RightMenu"
+import { auth } from "@clerk/nextjs/server"
+import prisma from "@/lip/client"
 
-const Homepage = () => {
+const Homepage = async () => {
+
+  const { userId } = auth()
+  if (!userId) return null
+  const user = await prisma.user.findFirst({
+    where: { clerkId: userId }
+  })
+
+  if (!user) {
+    return null
+  }
+
   return (
     <div className='flex gap-6 pt-6'>
       <div className="hidden xl:block w-[20%]"><LeftMenu /></div>
@@ -13,7 +26,7 @@ const Homepage = () => {
         <AddPost />
         <Feeds />
       </div>
-      <div className="hidden lg:block w-[30%]"><RightMenu /></div>
+      <div className="hidden lg:block w-[30%]"><RightMenu currentId={user.id} /></div>
     </div>
   )
 }

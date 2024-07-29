@@ -1,22 +1,29 @@
-import React from 'react'
-import Friends from './Friends'
+import React, { Suspense } from 'react'
 import Birthday from './Birthday'
 import Ads from './Ads'
 import UserMediaCard from './UserMediaCard'
 import UserCardInfo from './UserCardInfo'
 import prisma from '@/lip/client'
+import Friends from './Friends'
 
-async function RightMenu({ userId }: { userId?: string }) {
+async function RightMenu({ userId, currentId }: { userId: string, currentId?: string }) {
   const data = await prisma.user.findFirst({
     where: { id: userId }
   })
+
   if (!data) return null
+
+
   return (
     <div className='flex flex-col gap-6 '>
       {userId ? <>
-        <UserCardInfo data={data} />
-        <UserMediaCard data={data} />
-        {/* <Friends userId={data.id} /> */}
+        <Suspense fallback={"loading..."}>
+          <UserCardInfo data={data} />
+        </Suspense>
+        <Suspense fallback={"loading..."}>
+          <UserMediaCard data={data} />
+        </Suspense>
+        {currentId === userId && <Friends userId={data.id} />}
       </> :
         <>
           <Friends userId={data.id} />

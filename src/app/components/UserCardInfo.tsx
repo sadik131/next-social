@@ -1,8 +1,53 @@
 import { User } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
+import UserIntraction from './UserIntraction'
+import { auth } from '@clerk/nextjs/server'
+import prisma from '@/lip/client'
+import UpdateInfo from './UpdateInfo'
 
-function UserCardInfo({ data }: { data: User }) {
+async function UserCardInfo({ data }: { data: User }) {
+
+  const { userId: currentUser } = auth()
+  if (!currentUser) {
+    throw new Error("unauthorize")
+  }
+
+  const user = await prisma.user.findFirst({
+    where: { clerkId: currentUser }
+  })
+
+  if (!user) throw new Error("unAuthorize user")
+
+  let blockUser;
+  let follwerUser;
+  let follwingUserReq;
+
+  const blockRes = await prisma.block.findFirst({
+    where: {
+      blockerId: user?.id,
+      blockedId: data.id
+    }
+  })
+  const followRes = await prisma.follower.findFirst({
+    where: {
+      followerId: data.id,
+      followingId: user?.id
+    }
+  })
+  const FollowReqRes = await prisma.followRequest.findFirst({
+    where: {
+      receiverId: data.id,
+      senderId: user?.id
+    }
+  })
+
+
+  blockRes ? (blockUser = true) : (blockUser = false)
+  followRes ? (follwerUser = true) : (follwerUser = false)
+  FollowReqRes ? (follwingUserReq = true) : (follwingUserReq = false)
+
+
   const date = new Date(data.createdAt)
   const formattedData = date.toLocaleString("en-US", {
     year: "numeric",
@@ -10,16 +55,17 @@ function UserCardInfo({ data }: { data: User }) {
     day: "numeric",
   })
 
-
   return (
     <div className='cardContainer flex flex-col gap-3'>
       <div className='text-sm font-semibold flex justify-between items-center'>
         <h1 className='text-gray-500'>User information</h1>
-        <button className='bg-transparent border-none text-blue-500'>See all</button>
+        {data.id === user.id ? (<UpdateInfo />) : (
+          <button className='bg-transparent border-none text-blue-500'>See all</button>
+        )}
       </div>
       <div className='flex items-center gap-5'>
         <h1 className='text-gray-500'>
-          {data.name && data.surname ? `${data.name} " "${data.surname} ` : data.username}
+          {data.name && data.surname ? `${data.name} ${data.surname} ` : data.username}
         </h1>
         <h1 className='text-gray-500'>@suptoDev</h1>
       </div>
@@ -46,9 +92,7 @@ function UserCardInfo({ data }: { data: User }) {
           <h1 className='text-sm'>Joined {formattedData}</h1>
         </div>
       </div>
-      <button className='bg-blue-500 py-1 text-white rounded-md'>Following</button>
-      <button className='bg-transparent self-end text-sm border-none text-red-500'>Block User</button>
-
+      {data.id !== user.id && <UserIntraction userId={data.id} blockUser={blockUser} follwerUser={follwerUser} follwingUserReq={follwingUserReq} currentUserId={user?.id} />}
     </div>
   )
 }

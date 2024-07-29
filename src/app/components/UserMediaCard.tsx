@@ -1,40 +1,35 @@
+import prisma from '@/lip/client'
 import { User } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
 
-function UserMediaCard({data}:{data:User}) {
+async function UserMediaCard({ data }: { data: User }) {
+
+  const mediaImg = await prisma.post.findMany({
+    where: { userId: data.id },
+    select: {
+      img: true
+    },
+    take: 8
+  })
+
+
   return (
     <div className='cardContainer'>
       <div className="flex items-center justify-between text-sm my-4">
-        <h1>User Media</h1>
+        <h1 className='font-medium'>User Media</h1>
         <button className='bg-transparent border-none text-blue-500'>See all</button>
       </div>
-      <div className="flex flex-wrap gap-2">
-        <div className='relative w-1/5 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
-        <div className='relative w-1/4 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
-        <div className='relative w-1/4 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
-        <div className='relative w-1/4 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
-        <div className='relative w-1/4 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
-        <div className='relative w-1/4 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
-        <div className='relative w-1/4 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
-        <div className='relative w-1/4 h-24'>
-          <Image src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmF0dXJlfGVufDB8fDB8fHww" className='object-cover rounded-md' alt='media' fill />
-        </div>
+      <div className="grid grid-cols-4 gap-2">
+        {mediaImg.length !== 0 &&
+          mediaImg.map((img, index) => (
+            <div key={index} className='relative w-full h-24'>
+              <Image src={img.img!} className='object-cover rounded-md' alt='media' fill />
+            </div>
+          ))
+        }
       </div>
+      {mediaImg.length === 0 && <><h1 className='text-sm'>No media found</h1></>}
     </div>
   )
 }

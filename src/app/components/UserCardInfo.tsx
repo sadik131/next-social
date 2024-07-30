@@ -5,6 +5,9 @@ import UserIntraction from './UserIntraction'
 import { auth } from '@clerk/nextjs/server'
 import prisma from '@/lip/client'
 import UpdateInfo from './UpdateInfo'
+// import * as dayjs from 'dayjs'
+
+
 
 async function UserCardInfo({ data }: { data: User }) {
 
@@ -54,12 +57,14 @@ async function UserCardInfo({ data }: { data: User }) {
     month: "long",
     day: "numeric",
   })
+  // const formattedData = dayjs(data.createdAt).format("MMMM D, YYYY")
+
 
   return (
     <div className='cardContainer flex flex-col gap-3'>
       <div className='text-sm font-semibold flex justify-between items-center'>
         <h1 className='text-gray-500'>User information</h1>
-        {data.id === user.id ? (<UpdateInfo />) : (
+        {data.id === user.id ? (<UpdateInfo data={data}/>) : (
           <button className='bg-transparent border-none text-blue-500'>See all</button>
         )}
       </div>
@@ -98,3 +103,7 @@ async function UserCardInfo({ data }: { data: User }) {
 }
 
 export default UserCardInfo
+
+function dayjs(createdAt: Date) {
+  throw new Error('Function not implemented.')
+}

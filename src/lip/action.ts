@@ -1,5 +1,7 @@
 "use server"
+import { z } from "zod";
 import prisma from "./client";
+import { auth } from "@clerk/nextjs/server";
 
 export async function handleFollowToggle(userId: string, currentId: string) {
     try {
@@ -117,3 +119,41 @@ export async function handleFriendReqCencle(userId: string, currentId: string) {
     }
 }
 
+export async function handelUpdate(formData: FormData) {
+    const fields = Object.fromEntries(formData);
+
+    const filteredFields = Object.fromEntries(
+        Object.entries(fields).filter(([_, value]) => value !== "")
+    );
+
+    const Profile = z.object({
+        cover: z.string().optional(),
+        name: z.string().max(60).optional(),
+        surname: z.string().max(60).optional(),
+        description: z.string().max(255).optional(),
+        city: z.string().max(60).optional(),
+        school: z.string().max(60).optional(),
+        work: z.string().max(60).optional(),
+        website: z.string().max(60).optional(),
+    });
+
+    const validatedFields = Profile.safeParse(filteredFields);
+
+    if (!validatedFields.success) {
+        console.log(validatedFields.error.flatten().fieldErrors);
+        return { success: false, error: true };
+    }
+
+    const { userId } = auth()
+    if (!userId) throw new Error("user not authenticated")
+    try {
+        await prisma.user.update({
+            where: { clerkId: userId },
+            data: validatedFields.data
+        })
+        return { success: true, error: false }
+    } catch (error) {
+        console.log(error)
+        return { success: false, error: true };
+    }
+}

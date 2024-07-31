@@ -6,7 +6,7 @@ import UserCardInfo from './UserCardInfo'
 import prisma from '@/lip/client'
 import Friends from './Friends'
 
-async function RightMenu({ userId, currentId }: { userId: string, currentId?: string }) {
+async function RightMenu({ userId, currentId }: { userId?: string, currentId?: string }) {
   const data = await prisma.user.findFirst({
     where: { id: userId }
   })

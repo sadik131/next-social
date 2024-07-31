@@ -43,7 +43,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
       <div className="hidden xl:block w-[20%]"><LeftMenu /></div>
       <div className="w-full lg:w-[70%] xl:w-1/2">
         <UserProfile post={data._count.posts} followers={data._count.followers} following={data._count.following} data={data} />
-        <Feeds />
+        <Feeds currentUser={currentUser}/>
       </div>
       <div className="hidden lg:block w-[30%]"><RightMenu currentId={currentUser.id} userId={data.id} /></div>
     </div>

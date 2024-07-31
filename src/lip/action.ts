@@ -119,8 +119,9 @@ export async function handleFriendReqCencle(userId: string, currentId: string) {
     }
 }
 
-export async function handelUpdate(formData: FormData) {
+export async function handelUpdate(formData: FormData, cover: string) {
     const fields = Object.fromEntries(formData);
+    console.log(cover)
 
     const filteredFields = Object.fromEntries(
         Object.entries(fields).filter(([_, value]) => value !== "")
@@ -137,7 +138,7 @@ export async function handelUpdate(formData: FormData) {
         website: z.string().max(60).optional(),
     });
 
-    const validatedFields = Profile.safeParse(filteredFields);
+    const validatedFields = Profile.safeParse({ cover, ...filteredFields });
 
     if (!validatedFields.success) {
         console.log(validatedFields.error.flatten().fieldErrors);
@@ -155,5 +156,22 @@ export async function handelUpdate(formData: FormData) {
     } catch (error) {
         console.log(error)
         return { success: false, error: true };
+    }
+}
+
+export async function handelLikeToggle({ userId, postId }: { userId: string, postId: string }) {
+    const existLike = await prisma.like.findFirst({
+        where: { postId, userId }
+    })
+    if (existLike) {
+        await prisma.like.delete({
+            where: { id: existLike.id }
+        })
+    } else {
+        await prisma.like.create({
+            data: {
+                postId, userId
+            }
+        })
     }
 }

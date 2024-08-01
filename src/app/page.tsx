@@ -25,7 +25,7 @@ const Homepage = async () => {
       <div className="hidden xl:block w-[20%]"><LeftMenu /></div>
       <div className="w-full lg:w-[70%] xl:w-1/2">
         <Stories />
-        <AddPost />
+        <AddPost user={user} />
         <Feeds />
       </div>
       <div className="hidden lg:block w-[30%]"><RightMenu currentId={user.id} /></div>

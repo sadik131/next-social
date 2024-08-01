@@ -2,6 +2,7 @@
 import { z } from "zod";
 import prisma from "./client";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export async function handleFollowToggle(userId: string, currentId: string) {
     try {
@@ -178,7 +179,7 @@ export async function handelLikeToggle({ userId, postId }: { userId: string, pos
 
 export async function handelComment({ postId, userId, des }: { postId: string, userId: string, des: string }) {
     try {
-       const result = await prisma.comment.create({
+        const result = await prisma.comment.create({
             data: {
                 des,
                 postId,
@@ -186,6 +187,35 @@ export async function handelComment({ postId, userId, des }: { postId: string, u
             }
         })
         return result
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function createPost({ desc, img }: { desc: string, img: string }) {
+    const { userId } = auth()
+    if (!userId) throw new Error("user not authenticated")
+
+    const user = await prisma.user.findFirst({ where: { clerkId: userId } })
+
+    if (!user) return
+    if (!desc) return
+    const text = z.string().min(1).max(300)
+    const validatedDesc = text.safeParse(desc);
+
+    if (!validatedDesc.success) {
+        console.log("description is not valid");
+        return;
+    }
+    try {
+        await prisma.post.create({
+            data: {
+                userId: user.id,
+                desc: validatedDesc.data,
+                img
+            }
+        })
+        revalidatePath("/")
     } catch (error) {
         console.log(error)
     }

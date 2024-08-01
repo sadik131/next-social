@@ -23,6 +23,9 @@ async function Feeds({ currentUser }: { currentUser?: User }) {
               avatar: true
             }
           }
+        },
+        orderBy: {
+          createdAt: "desc"
         }
       })
     } else {
@@ -34,6 +37,9 @@ async function Feeds({ currentUser }: { currentUser?: User }) {
             select: { comment: true }
           },
           user: true
+        },
+        orderBy: {
+          createdAt: "desc"
         }
       })
     }

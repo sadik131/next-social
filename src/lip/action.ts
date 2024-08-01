@@ -175,3 +175,18 @@ export async function handelLikeToggle({ userId, postId }: { userId: string, pos
         })
     }
 }
+
+export async function handelComment({ postId, userId, des }: { postId: string, userId: string, des: string }) {
+    try {
+       const result = await prisma.comment.create({
+            data: {
+                des,
+                postId,
+                userId
+            }
+        })
+        return result
+    } catch (error) {
+        console.log(error)
+    }
+}

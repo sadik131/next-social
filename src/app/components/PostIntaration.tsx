@@ -4,7 +4,6 @@ import Image from 'next/image'
 import React, { useOptimistic, useState } from 'react'
 
 function PostIntaration({ postId, comments, likes, userId }: { userId: string, postId: string, comments: number, likes: string[] }) {
-    // console.log(likes)
 
 
 

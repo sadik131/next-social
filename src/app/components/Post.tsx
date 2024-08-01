@@ -11,7 +11,7 @@ async function Post({ post }: { post: PostProp }) {
     if (!userId) throw new Error("user is not authenticates")
 
     const user = await prisma.user.findFirst({ where: { clerkId: userId } })
-    if(!user){
+    if (!user) {
         throw new Error("user not authenticated")
     }
     return (
@@ -32,7 +32,7 @@ async function Post({ post }: { post: PostProp }) {
                 {post.desc && <p className='my-5'>{post.desc}</p>}
             </div>
             <PostIntaration userId={user.id} postId={post.id} comments={post._count.comment} likes={post.likes.map(like => like.userId)} />
-            <Comment />
+            <Comment postId={post.id} user={user} />
         </div>
     )
 }

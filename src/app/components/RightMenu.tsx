@@ -6,13 +6,14 @@ import UserCardInfo from './UserCardInfo'
 import prisma from '@/lip/client'
 import Friends from './Friends'
 
-async function RightMenu({ userId, currentId }: { userId?: string, currentId?: string }) {
+async function RightMenu({ userId, currentId }: { userId?: string, currentId: string }) {
+  console.log(currentId,"shimu")
+
   const data = await prisma.user.findFirst({
     where: { id: userId }
   })
-
+  
   if (!data) return null
-
 
   return (
     <div className='flex flex-col gap-6 '>
@@ -23,10 +24,10 @@ async function RightMenu({ userId, currentId }: { userId?: string, currentId?: s
         <Suspense fallback={"loading..."}>
           <UserMediaCard data={data} />
         </Suspense>
-        {currentId === userId && <Friends userId={data.id} />}
+        {currentId === userId && <Friends userId={currentId} />}
       </> :
         <>
-          <Friends userId={data.id} />
+          <Friends userId={currentId} />
           <Birthday />
           <Ads size='md' />
         </>}

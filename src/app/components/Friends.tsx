@@ -3,7 +3,6 @@ import React from 'react'
 import FriendList from './FriendList'
 
 async function Friends({ userId }: { userId: string }) {
-
     const friendReq = await prisma.followRequest.findMany({
         where: {
             receiverId: userId

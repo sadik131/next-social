@@ -1,16 +1,15 @@
 import { User } from '@prisma/client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import UserIntraction from './UserIntraction'
 import { auth } from '@clerk/nextjs/server'
 import prisma from '@/lip/client'
 import UpdateInfo from './UpdateInfo'
-// import * as dayjs from 'dayjs'
 
 
 
 async function UserCardInfo({ data }: { data: User }) {
-
+  const [userData , setUserData] = useState(data)
   const { userId: currentUser } = auth()
   if (!currentUser) {
     throw new Error("unauthorize")
@@ -57,8 +56,6 @@ async function UserCardInfo({ data }: { data: User }) {
     month: "long",
     day: "numeric",
   })
-  // const formattedData = dayjs(data.createdAt).format("MMMM D, YYYY")
-
 
   return (
     <div className='cardContainer flex flex-col gap-3'>
@@ -104,6 +101,3 @@ async function UserCardInfo({ data }: { data: User }) {
 
 export default UserCardInfo
 
-function dayjs(createdAt: Date) {
-  throw new Error('Function not implemented.')
-}

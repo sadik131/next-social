@@ -220,3 +220,14 @@ export async function createPost({ desc, img }: { desc: string, img: string }) {
         console.log(error)
     }
 }
+
+export async function deletePost(postId: string) {
+    try {
+        await prisma.post.delete({
+            where: { id: postId }
+        })
+        revalidatePath("/")
+    } catch (error) {
+        console.log(error)
+    }
+}

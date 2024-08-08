@@ -24,7 +24,7 @@ async function UserMediaCard({ data }: { data: User }) {
         {mediaImg.length !== 0 &&
           mediaImg.map((img, index) => (
             <div key={index} className='relative w-full h-24'>
-              <Image src={img.img!} className='object-cover rounded-md' alt='media' fill />
+              <Image src={img.img!} className='object-cover rounded-md' alt='media' fill sizes='(max-width: 768px) 100vw, 500px'/>
             </div>
           ))
         }

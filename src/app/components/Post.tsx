@@ -5,6 +5,8 @@ import { PostProp } from '@/lip/typs'
 import PostIntaration from './PostIntaration'
 import prisma from '@/lip/client'
 import { auth } from '@clerk/nextjs/server'
+import PostMore from './PostMore'
+import Link from 'next/link'
 
 async function Post({ post }: { post: PostProp }) {
     const { userId } = auth()
@@ -19,15 +21,15 @@ async function Post({ post }: { post: PostProp }) {
             <div className='flex justify-between mb-5 items-center '>
                 <div className='flex items-center gap-x-2'>
                     <Image src={post.user.avatar || "/noAvatar.png"} alt='' height={40} width={40} className='h-10 w-10 rounded-full' />
-                    <p>
+                    <Link href={`/pages/profile/${post.user.username}`}>
                         {post.user.name && post.user.surname ? `${post.user.name} ${post.user.surname} ` : post.user.username}
-                    </p>
+                    </Link>
                 </div>
-                <Image src="/more.png" alt='more' height={16} width={16} className='h-4 w-4 cursor-pointer' />
+                {post.userId === user.id && <PostMore id={post.id} />}
             </div>
             <div>
                 {post.img && <div className='h-96 w-full relative'>
-                    <Image src={post.img} alt='more' fill className='rounded-md object-cover' />
+                    <Image src={post.img} alt='more' fill sizes='(max-width: 768px) 100vw, 500px' className='rounded-md object-cover' />
                 </div>}
                 {post.desc && <p className='my-5'>{post.desc}</p>}
             </div>

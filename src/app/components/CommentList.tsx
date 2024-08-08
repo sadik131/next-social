@@ -14,14 +14,14 @@ function CommentList({ postId, user, comments }: { postId: string, user: User, c
     const submitComment = async () => {
         setOptimastic({
             id: "dfsd",
-            des, createdAt: new Date(Date.now()),
-            updatedAt: new Date(Date.now()),
+            des, createdAt: new Date(),
+            updatedAt: new Date(),
             userId: user.id,
             postId: postId,
             User: {
                 id: user.id,
-                clerkId: "",
-                email: "",
+                clerkId: user.clerkId,
+                email: user.email,
                 username: "Sending Please Wait...",
                 avatar: user.avatar || "/noAvatar.png",
                 cover: "",
@@ -32,19 +32,28 @@ function CommentList({ postId, user, comments }: { postId: string, user: User, c
                 work: "",
                 school: "",
                 website: "",
-                updatedAt: new Date(Date.now()),
-                createdAt: new Date(Date.now())
+                updatedAt: new Date(),
+                createdAt: new Date()
             },
         }
         )
         try {
             const createComment = await handelComment({ postId, des, userId: user.id })
-                setComment((prev) => [createComment, ...prev]);
+            if (createComment) {
+                setComment((prev) => [...prev, createComment]);
+            }
         } catch (error) {
             console.log(error)
         }
     }
-    const [optimastic, setOptimastic] = useOptimistic(comment, (state, value: commentList) => [value, ...state])
+    const [optimastic, setOptimastic] = useOptimistic(comment, (state, value: commentList) => {
+        if(value){
+           return [value, ...state]
+        }
+        else{
+            return state
+        }
+    })
     return (
         <div>
             {user && <div className="flex my-5">

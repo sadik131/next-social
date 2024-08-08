@@ -9,16 +9,17 @@ import prisma from "@/lip/client"
 const Homepage = async () => {
 
   const { userId } = auth()
-  if (!userId) return null
-  const user = await prisma.user.findFirst({
-    where: { clerkId: userId }
-  })
 
+  let user;
+  if (userId) {
+    user = await prisma.user.findFirst({
+      where: { clerkId: userId }
+    })
+  }
+  
   if (!user) {
     return null
   }
-
-  
 
   return (
     <div className='flex gap-6 pt-6'>

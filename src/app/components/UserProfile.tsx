@@ -6,8 +6,8 @@ function UserProfile({ data, post, followers, following }: { data: User, post?: 
     return (
         <div>
             <div className='relative h-60 w-full'>
-                <Image src={data.cover || "/noAvater.png"} alt='banner' fill />
-                <Image src={data.avatar || "/noCover.jpg"} alt='profile' height={128} width={128} className='rounded-full h-32 w-32 m-auto left-0 right-0 bottom-[-60px] absolute' />
+                <Image src={data.cover || "/noCover.jpg"} alt='banner' fill sizes='(max-width: 768px) 100vw, 500px'/>
+                <Image src={data.avatar || "/noAvater.png"} alt='profile' height={128} width={128} className='rounded-full h-32 w-32 m-auto left-0 right-0 bottom-[-60px] absolute' />
             </div>
             <div className='flex flex-col gap-4 items-center justify-center'>
                 <h1 className='font-medium text-lg mt-16'>{data.name && data.surname ? `${data.surname} ${data.name} ` : data.username}</h1>

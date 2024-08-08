@@ -6,7 +6,7 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 
 
-function AddPost({ user }: { user: User }) {
+function AddPost({ user }: { user?: User }) {
     const [desc, setDesc] = useState("")
     const [img, setImg] = useState<any>()
 
@@ -15,9 +15,12 @@ function AddPost({ user }: { user: User }) {
         <>
             <div className='bg-white shadow-lg  gap-2 justify-between items-center my-5 rounded-md p-4'>
                 <div className='flex items-center justify-center gap-2'>
-                    <Image src={user.avatar || "noAvatar.png"} alt='user' height={64} width={64} className='h-16 w-16 rounded-full' />
+                    <Image src={user?.avatar || "noAvatar.png"} alt='user' height={64} width={64} className='h-16 w-16 rounded-full' />
                     <div className="flex-1">
-                        <form action={() => createPost({ desc, img: img?.secure_url || "" })} className='flex gap-4'>
+                        <form action={() => {
+                            createPost({ desc, img: img?.secure_url || "" })
+                            setImg("")
+                        }} className='flex gap-4'>
                             <textarea onChange={(e) => setDesc(e.target.value)} name='desc' className='bg-slate-100 p-1 w-full' placeholder="What's on your mind"></textarea>
                             <Image src="/emoji.png" alt='emoji' height={20} width={20} className='h-5 w-5 cursor-pointer' />
                             <button>send</button>
@@ -51,7 +54,7 @@ function AddPost({ user }: { user: User }) {
                 </div>
                 {
                     img?.secure_url && <div className='w-full mt-4 h-[500px] relative'>
-                        <Image src={img?.secure_url} fill  alt='post'/>
+                        <Image src={img?.secure_url} fill sizes='(max-width: 768px) 100vw, 500px' alt='post' />
                     </div>
                 }
             </div>

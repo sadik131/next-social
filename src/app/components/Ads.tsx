@@ -6,7 +6,8 @@ function Ads({ size }: { size: "sm" | "md" }) {
     <div className='flex flex-col gap-y-5 cardContainer text-sm'>
       <h1>Sponsored Ads</h1>
       <div className={`relative ${size === "sm" ? "h-36" : "h-44"} w-full rounded-lg`}>
-        <Image src={"https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBsYWNlfGVufDB8fDB8fHww"} alt='ads' className='object-cover' fill />
+        <Image src={"https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBsYWNlfGVufDB8fDB8fHww"} alt='ads' className='object-cover' fill sizes='(max-width: 768px) 100vw, 500px' 
+        />
       </div>
       <div className='flex items-center gap-2'>
         <Image src={"https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBsYWNlfGVufDB8fDB8fHww"} alt='ads' height={32} width={32} className='h-8 w-8 rounded-full' />

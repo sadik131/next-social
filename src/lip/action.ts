@@ -122,7 +122,6 @@ export async function handleFriendReqCencle(userId: string, currentId: string) {
 
 export async function handelUpdate(formData: FormData, cover: string) {
     const fields = Object.fromEntries(formData);
-    console.log(cover)
 
     const filteredFields = Object.fromEntries(
         Object.entries(fields).filter(([_, value]) => value !== "")
@@ -229,5 +228,26 @@ export async function deletePost(postId: string) {
         revalidatePath("/")
     } catch (error) {
         console.log(error)
+    }
+}
+
+export async function approvePost(postId: string, adminId: string) {
+    console.log(postId, "post id")
+    const admin = await prisma.user.findFirst({ where: { id: adminId } });
+    console.log(admin, "admin id")
+    if (!admin || admin.role !== "ADMIN") {
+        throw new Error("Unauthorized: Only admins can approve posts");
+    }
+
+    try {
+        const updatedPost = await prisma.post.update({
+            where: { id: postId },
+            data: { status: "APPROVED" },
+        });
+
+        return updatedPost;
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error approving post");
     }
 }

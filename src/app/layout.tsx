@@ -23,7 +23,7 @@ export default function RootLayout({
           <div className="px-4 md:px-8 lg:px-16 xl:px-32 bg-white">
             <Navbar />
           </div>
-          <div className="px-4 md:px-8 lg:px-16 xl:px-32 bg-slate-100">
+          <div className=" bg-slate-100">
             {children}
           </div>
         </ClerkProvider>

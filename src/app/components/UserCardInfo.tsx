@@ -1,6 +1,5 @@
 import { User } from '@prisma/client'
 import Image from 'next/image'
-import React, { useState } from 'react'
 import UserIntraction from './UserIntraction'
 import { auth } from '@clerk/nextjs/server'
 import prisma from '@/lip/client'
@@ -9,7 +8,6 @@ import UpdateInfo from './UpdateInfo'
 
 
 async function UserCardInfo({ data }: { data: User }) {
-  const [userData , setUserData] = useState(data)
   const { userId: currentUser } = auth()
   if (!currentUser) {
     throw new Error("unauthorize")

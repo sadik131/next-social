@@ -27,7 +27,7 @@ async function RightMenu({ userId, currentId }: { userId?: string, currentId: st
         {currentId === userId && <Friends userId={currentId} />}
       </> :
         <>
-          <Friends userId={currentId} />
+          {/* <Friends userId={currentId} /> */}
           <Birthday />
           <Ads size='md' />
         </>}

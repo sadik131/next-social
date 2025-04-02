@@ -21,7 +21,7 @@ async function LeftMenu() {
   })
   return (
     <>
-      {user && <div className='cardContainer my-4'>
+      {user && <div className='cardContainer mb-4'>
         <div className='relative w-full h-[100px]'>
           <Image src={user.cover || "/noCover.jpg"} fill sizes='(max-width: 768px) 100vw, 500px' alt='cover' />
         </div>

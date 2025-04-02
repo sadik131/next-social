@@ -11,6 +11,7 @@ export interface PostProp {
     desc: string
     img: string | null
     userId: string
+    status: string
     createdAt: Date
     updatedAt: Date
     likes: [{ userId: string }]

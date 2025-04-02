@@ -9,6 +9,7 @@ async function Feeds({ currentUser }: { currentUser?: User }) {
   try {
     if (!currentUser) {
       posts = await prisma.post.findMany({
+        where: { status: "APPROVED" },
         include: {
           likes: true,
           _count: {

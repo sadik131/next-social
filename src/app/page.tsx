@@ -16,14 +16,16 @@ const Homepage = async () => {
       where: { clerkId: userId }
     })
   }
-  
+
   if (!user) {
     return null
   }
 
   return (
-    <div className='flex gap-6 pt-6'>
-      <div className="hidden xl:block w-[20%]"><LeftMenu /></div>
+    <div className='px-4 md:px-8 lg:px-16 xl:px-32 flex gap-6 pt-6'>
+      <div className="w-[20%]">
+        <div className="hidden xl:block "><LeftMenu /></div>
+      </div>
       <div className="w-full lg:w-[70%] xl:w-1/2">
         <Stories />
         <AddPost user={user} />
